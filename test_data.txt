@@ -1,0 +1,41 @@
+/* Test for CREATE TABLE with subquery */
+create table test_table50 as
+select col1, col2 from test_table51
+where col3 in (
+    select col4 from test_table52
+    where col5 = 'val'
+);
+
+/* Test for INSERT INTO with a single table */
+insert into test_table53
+select col1, col2 from test_table54
+where col3 = 'val';
+
+/* Test for DELETE FROM with JOIN */
+delete from test_table55
+where col1 in (
+    select a.col1
+    from test_table56 a
+    join test_table57 b
+    on a.key = b.key
+);
+
+/* Test for UPDATE with multiple SET columns */
+update test_table58
+set col1 = (select max(col2) from test_table59 where col3 = 'val'),
+    col4 = 'new_value'
+where col5 = 'val2';
+
+/* Test for mixed JOINs with schema-qualified tables */
+select a.col1, b.col2
+from schema1.test_table60 a
+inner join schema2.test_table61 b
+on a.key = b.key;
+
+/* Test for UNION of two simple queries */
+select col1 from test_table62
+union
+select col2 from test_table63;
+
+/* Test for multiple statements in one line */
+create table inline_table2 as select * from test_table64; insert into test_table65 select * from inline_table2;
